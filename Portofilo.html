@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basil Alghamdi | Colorist</title>
+  <style>
+    :root {
+      --bg: #0b0b0d;
+      --bg-soft: #121216;
+      --panel: rgba(255,255,255,0.04);
+      --text: #f5f2ea;
+      --muted: #b6afa3;
+      --line: rgba(255,255,255,0.09);
+      --gold: #d4af37;
+      --gold-soft: #c7a96b;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      --container: 1180px;
+      --ease: cubic-bezier(.22,1,.36,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(212,175,55,0.08), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(212,175,55,0.05), transparent 26%),
+        linear-gradient(180deg, #09090b 0%, #0d0d10 42%, #09090b 100%);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--container));
+      margin-inline: auto;
+    }
+
+    .section { padding: 110px 0; position: relative; }
+
+    .section-heading {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 42px;
+      max-width: 720px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold-soft);
+      font-size: 0.9rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(2.9rem, 6vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 3vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      font-size: clamp(1rem, 1.8vw, 1.22rem);
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .muted { color: var(--muted); }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(9,9,11,0.68);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 74px;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(212,175,55,0.35);
+      color: var(--gold);
+      box-shadow: inset 0 0 25px rgba(212,175,55,0.08);
+      font-size: 0.88rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.96rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a { transition: color 0.25s ease; }
+    .nav-links a:hover,
+    .nav-links a:focus-visible { color: var(--text); outline: none; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.28);
+      background: linear-gradient(180deg, rgba(212,175,55,0.18), rgba(212,175,55,0.08));
+      color: var(--text);
+      font-weight: 600;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      transition: transform 0.3s var(--ease), border-color 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(212,175,55,0.5);
+      outline: none;
+    }
+
+    .button.secondary {
+      background: rgba(255,255,255,0.02);
+      border-color: rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      flex: 0 0 18px;
+      opacity: 0.95;
+      filter: drop-shadow(0 6px 18px rgba(0,0,0,0.25));
+    }
+
+    .hero { padding: 86px 0 60px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .hero-copy { display: grid; gap: 14px; }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .stat strong {
+      font-size: clamp(1.15rem, 1.4vw, 1.45rem);
+      line-height: 1.15;
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 22px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.09);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -20% auto auto -10%;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .frame {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #0f0f12;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .frame img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Badge moved BELOW the photo (green space) */
+    .frame-badge {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(12,12,14,0.78);
+      border: 1px solid rgba(255,255,255,0.09);
+      color: var(--muted);
+      backdrop-filter: blur(14px);
+      font-size: 0.92rem;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+    .panel {
+      padding: 28px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .signature-list { display: grid; gap: 14px; margin-top: 6px; }
+    .signature-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .signature-item:first-child { border-top: 0; padding-top: 0; }
+
+    .signature-dot {
+      flex: 0 0 10px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--gold), #8a6a14);
+      margin-top: 0.45rem;
+      box-shadow: 0 0 20px rgba(212,175,55,0.35);
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .trust-card {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+      display: grid;
+      gap: 6px;
+      align-content: start;
+    }
+
+    .trust-card .kicker {
+      color: var(--gold-soft);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .trust-card strong { font-size: 1.02rem; letter-spacing: -0.01em; }
+    .trust-card span { color: var(--muted); font-size: 0.95rem; }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+    .skill-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      transition: transform 0.35s var(--ease), border-color 0.35s ease, background 0.35s ease;
+      min-height: 180px;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+    }
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212,175,55,0.28);
+      background: rgba(255,255,255,0.055);
+    }
+    .skill-tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(212,175,55,0.08);
+      border: 1px solid rgba(212,175,55,0.16);
+      color: var(--gold-soft);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .cards-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .service-card {
+      padding: 24px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      min-height: 210px;
+      transition: transform 0.35s var(--ease), border-color 0.35s ease, background 0.35s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212,175,55,0.22);
+      background: rgba(255,255,255,0.055);
+    }
+    .service-list { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 8px; }
+
+    .process-steps { display: grid; gap: 14px; margin-top: 10px; }
+    .step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+    }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(212,175,55,0.10);
+      border: 1px solid rgba(212,175,55,0.25);
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .projects-grid { display: grid; gap: 28px; }
+    .project-card {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 26px;
+      padding: 24px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .project-copy { display: grid; align-content: start; gap: 18px; }
+    .project-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+    .meta-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .project-slider {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #101014;
+      border: 1px solid rgba(255,255,255,0.08);
+      aspect-ratio: 16 / 10;
+      min-height: 320px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    .project-slider img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .slider-image.before { clip-path: inset(0 50% 0 0); z-index: 2; }
+
+    .slider-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(212,175,55,0.85), rgba(255,255,255,0.25));
+      z-index: 3;
+      box-shadow: 0 0 30px rgba(212,175,55,0.28);
+      pointer-events: none;
+    }
+
+    .slider-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 56px;
+      height: 56px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 4;
+      background: rgba(10,10,12,0.76);
+      border: 1px solid rgba(212,175,55,0.35);
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.34);
+      pointer-events: none;
+    }
+    .slider-handle::before { content: ""; }
+
+    .slider-label {
+      position: absolute;
+      top: 16px;
+      z-index: 5;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+      background: rgba(10,10,12,0.72);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+    .slider-label.before { left: 16px; }
+    .slider-label.after { right: 16px; }
+
+    .slider-control {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: ew-resize;
+      z-index: 6;
+    }
+
+    .slider-focus-ring {
+      position: absolute;
+      inset: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(212,175,55,0.45);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .contact-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 32px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(255,255,255,0.04));
+      border: 1px solid rgba(212,175,55,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-actions { display:flex; flex-wrap:wrap; gap:12px; justify-content: flex-end; }
+
+    .contact-note a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: rgba(212,175,55,0.35);
+      text-underline-offset: 4px;
+    }
+
+    footer {
+      padding: 30px 0 40px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+      will-change: opacity, transform;
+    }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .project-card, .grid-2, .contact-card { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cards-3 { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .contact-actions { justify-content: flex-start; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner { flex-wrap: wrap; justify-content: center; padding: 14px 0; }
+      .nav-links { justify-content: center; }
+      .section { padding: 86px 0; }
+      .hero { padding-top: 50px; }
+      .hero-stats, .skills-grid { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: 1fr; }
+      .project-card, .panel, .hero-card, .contact-card { padding: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home" aria-label="Basil Alghamdi home">
+        <span class="brand-mark">BA</span>
+        <span>Basil Alghamdi</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#skills">Skills</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.linkedin.com/in/basil-alghamdi-338252279/" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal active">
+          <span class="eyebrow">Professional Colorist</span>
+          <h1>Color that feels clean, intentional, and consistent.</h1>
+
+          <div class="trust-grid reveal reveal-delay-1" aria-label="Credentials and workflow">
+            <div class="trust-card">
+              <div class="kicker">Certified</div>
+              <strong>Blackmagic COLOR20</strong>
+              <span>Official certification · 92% score</span>
+            </div>
+            <div class="trust-card">
+              <div class="kicker">Workflow</div>
+              <strong>DaVinci WG / Intermediate</strong>
+              <span>Reliable color management</span>
+            </div>
+            <div class="trust-card">
+              <div class="kicker">Delivery</div>
+              <strong>Rec.709 Ready</strong>
+              <span>Platform-ready exports</span>
+            </div>
+            <div class="trust-card">
+              <div class="kicker">Tools</div>
+              <strong>Resolve + Fusion</strong>
+              <span>Optional cleanup support</span>
+            </div>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat reveal reveal-delay-1">
+              <strong>Cinematic</strong>
+              <span class="muted">Mood-first grading with filmic contrast and controlled color separation.</span>
+            </div>
+            <div class="stat reveal reveal-delay-2">
+              <strong>Commercial</strong>
+              <span class="muted">Clean, premium, brand-safe looks that still feel rich and expressive.</span>
+            </div>
+            <div class="stat reveal reveal-delay-3">
+              <strong>YouTube content</strong>
+              <span class="muted">Natural correction and consistent skin tones built for modern platforms.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card reveal reveal-delay-2">
+          <div class="frame">
+            <img src="assets/personal-photo.png" alt="Portrait of Basil Alghamdi" />
+          </div>
+          <!-- Badge moved to the green space under the image -->
+          <div class="frame-badge">DaVinci Resolve · DaVinci WG Workflow · Shot Matching</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container grid-2">
+        <div class="panel reveal">
+          <div class="section-heading">
+            <span class="eyebrow">About</span>
+            <h2>More than correction. This is image design.</h2>
+          </div>
+
+          <p class="lead">
+            I’m Basil, a DaVinci Resolve colorist. I treat color like part of the story. Sometimes that means a bold cinematic mood. Sometimes it means
+            keeping the image clean, natural, and consistent from shot to shot.
+          </p>
+        </div>
+
+        <div class="panel reveal reveal-delay-1">
+          <div class="section-heading" style="margin-bottom: 18px;">
+            <span class="eyebrow">Signature</span>
+            <h2 style="font-size: clamp(1.6rem, 2.2vw, 2.2rem);">What I prioritize in every grade</h2>
+          </div>
+
+          <div class="signature-list">
+            <div class="signature-item">
+              <span class="signature-dot"></span>
+              <div>
+                <h3>Controlled contrast</h3>
+                <p class="muted">Protect highlights, keep blacks rich, and preserve texture.</p>
+              </div>
+            </div>
+            <div class="signature-item">
+              <span class="signature-dot"></span>
+              <div>
+                <h3>Skin tone respect</h3>
+                <p class="muted">Natural hue and believable saturation, even under mixed light.</p>
+              </div>
+            </div>
+            <div class="signature-item">
+              <span class="signature-dot"></span>
+              <div>
+                <h3>Intentional color separation</h3>
+                <p class="muted">Guide the eye with subtle hue shifts, density, and background control.</p>
+              </div>
+            </div>
+            <div class="signature-item">
+              <span class="signature-dot"></span>
+              <div>
+                <h3>Delivery-ready finish</h3>
+                <p class="muted">Clean Rec.709 output that holds up on phones, laptops, and client review.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Services</span>
+          <h2>Clear deliverables. Clean results.</h2>
+          <p class="lead">Simple, practical services that work for creators, agencies, and storytelling projects.</p>
+        </div>
+
+        <div class="cards-3">
+          <article class="service-card reveal">
+            <span class="skill-tag">Foundation</span>
+            <h3>Color Correction</h3>
+            <p class="muted">Clean balance, consistent skin tones, and smooth shot matching.</p>
+            <ul class="service-list">
+              <li>Exposure & white balance refinement</li>
+              <li>Neutralization & cleanup</li>
+              <li>Skin tone accuracy</li>
+              <li>Shot-to-shot consistency</li>
+            </ul>
+          </article>
+
+          <article class="service-card reveal reveal-delay-1">
+            <span class="skill-tag">Creative</span>
+            <h3>Color Grading & Look Development</h3>
+            <p class="muted">A look that fits your project: cinematic, commercial, or clean natural.</p>
+            <ul class="service-list">
+              <li>Cinematic looks (music video / narrative)</li>
+              <li>Commercial polish (brand-safe, premium)</li>
+              <li>Film emulation taste (when appropriate)</li>
+              <li>Contrast shaping & palette control</li>
+            </ul>
+          </article>
+
+          <article class="service-card reveal reveal-delay-2">
+            <span class="skill-tag">Optional</span>
+            <h3>Fusion Cleanup Support</h3>
+            <p class="muted">Optional fixes for problem shots (only when needed).</p>
+            <ul class="service-list">
+              <li>Object removal / minor cleanup</li>
+              <li>Sky replacement (when suitable)</li>
+              <li>Clean plates & basic roto fixes</li>
+              <li>Finishing support for hero shots</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="container grid-2">
+        <div class="panel reveal">
+          <div class="section-heading">
+            <span class="eyebrow">Process</span>
+            <h2>Fast, clear, and review-friendly.</h2>
+          </div>
+
+          <p class="lead">
+            Simple workflow: you send footage and references, I deliver a first pass, then we refine and export.
+          </p>
+        </div>
+
+        <div class="panel reveal reveal-delay-1">
+          <div class="process-steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div>
+                <h3>Send footage + reference</h3>
+                <p class="muted">Send your footage/timeline and any references you like (even a screenshot or a link).</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div>
+                <h3>First pass</h3>
+                <p class="muted">Balance and shot match, then a clean creative pass based on the goal.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div>
+                <h3>Review + revisions</h3>
+                <p class="muted">You review, I refine until the look feels right.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div>
+                <h3>Final delivery</h3>
+                <p class="muted">Final exports ready to upload or deliver: clean, consistent, and sharp.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Skills</span>
+          <h2>A stronger, more believable image from first balance to final polish.</h2>
+          <p class="lead">The areas I focus on most to keep your videos consistent and premium.</p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-card reveal">
+            <span class="skill-tag">Primary</span>
+            <h3>Color Correction</h3>
+            <p class="muted">Exposure balancing, white balance refinement, neutralization, and clean technical foundations.</p>
+          </article>
+
+          <article class="skill-card reveal reveal-delay-1">
+            <span class="skill-tag">Primary</span>
+            <h3>Creative Color Grading</h3>
+            <p class="muted">Tasteful mood and polish for commercials, music visuals, narrative edits, and YouTube content.</p>
+          </article>
+
+          <article class="skill-card reveal reveal-delay-2">
+            <span class="skill-tag">Precision</span>
+            <h3>Shot Matching</h3>
+            <p class="muted">Consistency across angles and lighting shifts so the sequence feels unified.</p>
+          </article>
+
+          <article class="skill-card reveal reveal-delay-3">
+            <span class="skill-tag">Polish</span>
+            <h3>Look Development</h3>
+            <p class="muted">Repeatable visual identity through contrast shaping, palette control, and tonal discipline.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Selected Work</span>
+          <h2>Before and after, without the gimmicks.</h2>
+          <p class="lead">
+            Drag the slider to compare the untouched image against the finished grade. Replace the placeholder assets with your real stills.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- 1 -->
+          <article class="project-card reveal">
+            <div class="project-copy">
+              <div style="display:grid; gap:14px;">
+                <div class="project-meta">
+                  <span class="meta-pill">Commercial</span>
+                  <span class="meta-pill">Premium</span>
+                  <span class="meta-pill">Clean Contrast</span>
+                </div>
+                <h3 style="font-size: clamp(1.6rem, 2.2vw, 2.25rem);">Premium product campaign</h3>
+                <p class="muted">Polished contrast, clean highlights, and brand-safe color.</p>
+              </div>
+            </div>
+
+            <div class="project-slider" data-start="58">
+              <img src="assets/project-1-after.png" alt="After grade still" class="slider-image after" />
+              <img src="assets/project-1-before.png" alt="Before grade still" class="slider-image before" />
+              <div class="slider-focus-ring" aria-hidden="true"></div>
+              <div class="slider-divider" aria-hidden="true"></div>
+              <div class="slider-handle" aria-hidden="true"></div>
+              <div class="slider-label before">Before</div>
+              <div class="slider-label after">After</div>
+              <input class="slider-control" type="range" min="0" max="100" value="58" aria-label="Before and after image comparison" />
+            </div>
+          </article>
+
+          <!-- 2 -->
+          <article class="project-card reveal reveal-delay-1">
+            <div class="project-copy">
+              <div style="display:grid; gap:14px;">
+                <div class="project-meta">
+                  <span class="meta-pill">Music Visual</span>
+                  <span class="meta-pill">Cinematic</span>
+                  <span class="meta-pill">Separation</span>
+                </div>
+                <h3 style="font-size: clamp(1.6rem, 2.2vw, 2.25rem);">Atmospheric performance scene</h3>
+                <p class="muted">Moody separation with believable skin tones.</p>
+              </div>
+            </div>
+
+            <div class="project-slider" data-start="46">
+              <img src="assets/project-2-after.png" alt="After grade still" class="slider-image after" />
+              <img src="assets/project-2-before.png" alt="Before grade still" class="slider-image before" />
+              <div class="slider-focus-ring" aria-hidden="true"></div>
+              <div class="slider-divider" aria-hidden="true"></div>
+              <div class="slider-handle" aria-hidden="true"></div>
+              <div class="slider-label before">Before</div>
+              <div class="slider-label after">After</div>
+              <input class="slider-control" type="range" min="0" max="100" value="46" aria-label="Before and after image comparison" />
+            </div>
+          </article>
+
+          <!-- 3 -->
+          <article class="project-card reveal reveal-delay-2">
+            <div class="project-copy">
+              <div style="display:grid; gap:14px;">
+                <div class="project-meta">
+                  <span class="meta-pill">YouTube</span>
+                  <span class="meta-pill">Natural</span>
+                  <span class="meta-pill">Skin Tones</span>
+                </div>
+                <h3 style="font-size: clamp(1.6rem, 2.2vw, 2.25rem);">YouTube content · clean natural finish</h3>
+                <p class="muted">Natural correction with stable skin tones under mixed light.</p>
+              </div>
+            </div>
+
+            <div class="project-slider" data-start="52">
+              <img src="assets/project-3-after.png" alt="After grade still" class="slider-image after" />
+              <img src="assets/project-3-before.png" alt="Before grade still" class="slider-image before" />
+              <div class="slider-focus-ring" aria-hidden="true"></div>
+              <div class="slider-divider" aria-hidden="true"></div>
+              <div class="slider-handle" aria-hidden="true"></div>
+              <div class="slider-label before">Before</div>
+              <div class="slider-label after">After</div>
+              <input class="slider-control" type="range" min="0" max="100" value="52" aria-label="Before and after image comparison" />
+            </div>
+          </article>
+
+          <!-- 4 -->
+          <article class="project-card reveal reveal-delay-3">
+            <div class="project-copy">
+              <div style="display:grid; gap:14px;">
+                <div class="project-meta">
+                  <span class="meta-pill">Branded</span>
+                  <span class="meta-pill">Social Ad</span>
+                  <span class="meta-pill">Highlights</span>
+                </div>
+                <h3 style="font-size: clamp(1.6rem, 2.2vw, 2.25rem);">Branded social spot · crisp and premium</h3>
+                <p class="muted">Crisp, premium look without over-grading.</p>
+              </div>
+            </div>
+
+            <div class="project-slider" data-start="60">
+              <img src="assets/project-4-after.png" alt="After grade still" class="slider-image after" />
+              <img src="assets/project-4-before.png" alt="Before grade still" class="slider-image before" />
+              <div class="slider-focus-ring" aria-hidden="true"></div>
+              <div class="slider-divider" aria-hidden="true"></div>
+              <div class="slider-handle" aria-hidden="true"></div>
+              <div class="slider-label before">Before</div>
+              <div class="slider-label after">After</div>
+              <input class="slider-control" type="range" min="0" max="100" value="60" aria-label="Before and after image comparison" />
+            </div>
+          </article>
+
+          <!-- 5 -->
+          <article class="project-card reveal">
+            <div class="project-copy">
+              <div style="display:grid; gap:14px;">
+                <div class="project-meta">
+                  <span class="meta-pill">Narrative</span>
+                  <span class="meta-pill">Film</span>
+                  <span class="meta-pill">Mood</span>
+                </div>
+                <h3 style="font-size: clamp(1.6rem, 2.2vw, 2.25rem);">Narrative scene · controlled mood and depth</h3>
+                <p class="muted">Controlled mood and depth with smooth highlight roll-off.</p>
+              </div>
+            </div>
+
+            <div class="project-slider" data-start="44">
+              <img src="assets/project-5-after.png" alt="After grade still" class="slider-image after" />
+              <img src="assets/project-5-before.png" alt="Before grade still" class="slider-image before" />
+              <div class="slider-focus-ring" aria-hidden="true"></div>
+              <div class="slider-divider" aria-hidden="true"></div>
+              <div class="slider-handle" aria-hidden="true"></div>
+              <div class="slider-label before">Before</div>
+              <div class="slider-label after">After</div>
+              <input class="slider-control" type="range" min="0" max="100" value="44" aria-label="Before and after image comparison" />
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-card reveal">
+          <div style="display:grid; gap:12px;">
+            <span class="eyebrow">Contact</span>
+            <h2>Want your video to look cleaner and more professional?</h2>
+            <p class="lead" style="max-width: 55ch;">
+              If you want a natural look for YouTube, a premium commercial finish, or a cinematic mood, I can help.
+              Send me your footage (or even a short sample), and I’ll tell you the best approach.
+            </p>
+
+            <p class="muted contact-note" style="margin: 10px 0 0; max-width: 52ch;">
+              Fast replies on WhatsApp. If you prefer email: <a href="mailto:basil.visual@gmail.com">basil.visual@gmail.com</a>
+            </p>
+          </div>
+
+          <div class="contact-actions">
+            <a class="button" href="https://wa.me/966595033486" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2a10 10 0 0 0-8.53 15.2L2 22l4.93-1.39A10 10 0 1 0 12 2Z" stroke="currentColor" stroke-width="1.6" opacity="0.9"/>
+                <path d="M8.6 7.8c-.2.4-.5 1-.5 1.5 0 .6.2 1.4 1 2.5.9 1.4 2.3 2.9 4.1 3.8.8.4 1.5.6 2 .6.6 0 1.2-.2 1.5-.5.3-.3.5-.8.6-1.2.1-.3 0-.6-.3-.8l-1.2-.6c-.3-.2-.7-.1-.9.2l-.5.6c-.2.2-.4.3-.6.2-.5-.2-1.1-.5-1.7-1-.6-.5-1.1-1.1-1.4-1.6-.1-.2 0-.5.2-.6l.5-.5c.2-.2.3-.6.2-.9l-.5-1.2c-.2-.4-.7-.6-1.1-.4Z" fill="currentColor"/>
+              </svg>
+              WhatsApp
+            </a>
+
+            <a class="button secondary" href="https://www.linkedin.com/in/basil-alghamdi-338252279/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6.5 9.5V19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M6.5 6.2h0.01" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                <path d="M10.2 19v-5.2c0-2.1 1.2-3.4 3-3.4 1.7 0 2.6 1.1 2.6 3.1V19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M10.2 12.2v-2.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M3.5 3.5h17v17h-17z" stroke="currentColor" stroke-width="1.4" opacity="0.55"/>
+              </svg>
+              LinkedIn
+            </a>
+
+            <a class="button secondary" href="https://www.instagram.com/zqt_07/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7.5 3.8h9A3.7 3.7 0 0 1 20.2 7.5v9a3.7 3.7 0 0 1-3.7 3.7h-9A3.7 3.7 0 0 1 3.8 16.5v-9A3.7 3.7 0 0 1 7.5 3.8Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 16.2A4.2 4.2 0 1 0 12 7.8a4.2 4.2 0 0 0 0 8.4Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M17.2 6.8h0.01" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+              </svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center;">
+      <span>© 2026 Basil Alghamdi</span>
+      <span>Colorist · DaVinci Resolve · Cinematic and Commercial</span>
+    </div>
+  </footer>
+
+  <script>
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach((element) => {
+      if (!element.classList.contains('active')) {
+        revealObserver.observe(element);
+      }
+    });
+
+    // Slider logic (no arrows)
+    document.querySelectorAll('.project-slider').forEach((slider) => {
+      const control = slider.querySelector('.slider-control');
+      const beforeImage = slider.querySelector('.slider-image.before');
+      const divider = slider.querySelector('.slider-divider');
+      const handle = slider.querySelector('.slider-handle');
+
+      if (!control || !beforeImage || !divider || !handle) return;
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+      const updateSlider = (value) => {
+        const safeValue = clamp(Number(value), 0, 100);
+        control.value = safeValue;
+        beforeImage.style.clipPath = `inset(0 ${100 - safeValue}% 0 0)`;
+        divider.style.left = `${safeValue}%`;
+        handle.style.left = `${safeValue}%`;
+      };
+
+      control.addEventListener('input', (event) => {
+        updateSlider(event.target.value);
+      });
+
+      control.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          updateSlider(Number(control.value) - 4);
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          updateSlider(Number(control.value) + 4);
+        }
+      });
+
+      const initialValue = Number(slider.dataset.start || control.value || 50);
+      updateSlider(initialValue);
+    });
+  </script>
+</body>
+</html>
